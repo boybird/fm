@@ -1,4 +1,5 @@
 #include "common.h"
+#include "db_manager.h"
 #include "file_manager.h"
 #include "error_handler.h"
 
@@ -13,6 +14,7 @@ static void print_usage() {
     printf("  delete <path>            Delete a file or directory\n");
     printf("  list <path>              List contents of a directory\n");
     printf("  info <path>              Show file/directory information\n");
+    printf("  batch <json>             Input a json file to do batch works\n");
 }
 
 int main(int argc, char* argv[]) {
@@ -26,12 +28,15 @@ int main(int argc, char* argv[]) {
     const char* command = argv[1];
     int result = FM_SUCCESS;
 
+    db_init("/home/o/Public/filedb.sqlite");
+
+
     if (strcmp(command, "init") == 0) {
-        if (argc != 3) {
-            printf("Error: init requires root path\n");
-            return 1;
-        }
-        result = fm_init(argv[2]);
+        // if (argc != 3) {
+        //     printf("Error: init requires root path\n");
+        //     return 1;
+        // }
+        result = fm_init("/home/o/Public");
     }
     else if (strcmp(command, "create") == 0) {
         if (argc < 3) {
@@ -79,7 +84,7 @@ int main(int argc, char* argv[]) {
         if (result == FM_SUCCESS) {
             printf("Contents of %s:\n", argv[2]);
             for (size_t i = 0; i < list.count; i++) {
-                printf("%s [%s] %zu bytes\n", 
+                printf("%s [%s] %zu bytes\n",
                        list.items[i].name,
                        list.items[i].type,
                        list.items[i].size);
@@ -103,6 +108,9 @@ int main(int argc, char* argv[]) {
                 printf("Checksum: %s\n", info.checksum);
             }
         }
+    }
+    else if (strcmp(command, "json") == 0) {
+        fm_batch_do_json(argv[2]);
     }
     else {
         printf("Unknown command: %s\n", command);

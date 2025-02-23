@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <openssl/sha.h>
+#include <openssl/evp.h>
 
 // Error codes
 #define FM_SUCCESS           0

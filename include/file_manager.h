@@ -18,6 +18,9 @@ int fm_delete(const char* path);
 int fm_get_file_info(const char* path, file_info_t* info);
 int fm_list_directory(const char* path, file_list_t* list);
 
+// json
+int fm_batch_do_json(const char *json_file);
+
 // Cleanup
 void fm_cleanup(void);
 

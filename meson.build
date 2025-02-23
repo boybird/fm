@@ -17,12 +17,13 @@ sources = files(
 # Dependencies
 sqlite3_dep = dependency('sqlite3', required: true)
 crypto_dep = dependency('libcrypto', required: true)
+json_dep = dependency('json-c', required: true)
 
 # Build the executable
 executable(
   'fm',
   sources: sources,
   include_directories: incdir,
-  dependencies: [sqlite3_dep, crypto_dep],
+  dependencies: [sqlite3_dep, crypto_dep, json_dep],
   install: false,
 )
